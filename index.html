@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiệu Ứng Bất Ngờ</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial Black', Impact, sans-serif;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .bait-btn {
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff0055, #ff5000);
+            color: #fff;
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .bait-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(255, 0, 85, 0.9);
+        }
+
+        #jumpscare-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #jumpscare-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+            animation: strobe 0.02s infinite, shake 0.03s infinite;
+        }
+
+        .scare-image {
+            width: 320px;
+            max-width: 80vw;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 30px #ff0000);
+            animation: popZoom 0.06s ease-out forwards;
+        }
+
+        .scare-text {
+            font-size: 4.5rem;
+            color: #ff0000;
+            text-align: center;
+            padding: 0 20px;
+            margin: 0;
+            line-height: 1.1;
+            text-shadow: 0 0 20px #ff0000, 0 0 50px #ff0000, 0 0 100px #8b0000;
+            animation: popZoom 0.06s ease-out forwards;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes strobe {
+            0% { background-color: #000; filter: invert(0); }
+            25% { background-color: #fff; filter: invert(1); }
+            50% { background-color: #ff0000; filter: invert(0); }
+            75% { background-color: #000; filter: invert(1); }
+            100% { background-color: #fff; filter: invert(0); }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(30px, 30px) rotate(0deg); }
+            20% { transform: translate(-35px, -25px) rotate(-5deg); }
+            40% { transform: translate(-30px, 30px) rotate(5deg); }
+            60% { transform: translate(35px, 20px) rotate(-3deg); }
+            80% { transform: translate(-25px, -30px) rotate(4deg); }
+            100% { transform: translate(25px, -20px) rotate(-4deg); }
+        }
+
+        @keyframes popZoom {
+            0% { transform: scale(0.05); }
+            100% { transform: scale(1.3); }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="triggerBtn" class="bait-btn">BẤM VÀO ĐÂY ĐỂ XEM HÌNH 🎁</button>
+
+    <div id="jumpscare-overlay" class="hidden">
+        <svg class="scare-image" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="2"/>
+            <circle cx="30" cy="35" r="14" fill="#000"/>
+            <circle cx="70" cy="35" r="14" fill="#000"/>
+            <circle cx="30" cy="35" r="5" fill="#ff0000"/>
+            <circle cx="70" cy="35" r="5" fill="#ff0000"/>
+            <path d="M 15 65 Q 50 10 85 65 Q 50 100 15 65 Z" fill="#000"/>
+            <path d="M 20 65 L 25 55 L 30 65 L 35 55 L 40 65 L 45 55 L 50 65 L 55 55 L 60 65 L 65 55 L 70 65 L 75 55 L 80 65" stroke="#fff" stroke-width="2.5" fill="none"/>
+        </svg>
+        <h1 class="scare-text">Dương Thị Thoa ăn cứt nha</h1>
+    </div>
+
+    <script>
+        const btn = document.getElementById('triggerBtn');
+        const overlay = document.getElementById('jumpscare-overlay');
+        let audioCtx = null;
+
+        function playLongTerrifyingSound() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const now = audioCtx.currentTime;
+            const duration = 5.0; // Kéo dài âm thanh lên 5 giây
+
+            // 1. Tiếng thét tần số cao kéo dài
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(3200, now);
+            osc1.frequency.exponentialRampToValueAtTime(120, now + duration);
+            gain1.gain.setValueAtTime(3.0, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+            // 2. Tiếng gầm Sub-Bass trầm đục kéo dài
+            const osc2 = audioCtx.createOscillator();
+            const gain2 = audioCtx.createGain();
+            osc2.type = 'square';
+            osc2.frequency.setValueAtTime(150, now);
+            osc2.frequency.linearRampToValueAtTime(25, now + duration);
+            gain2.gain.setValueAtTime(3.5, now);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+            // 3. Tiếng nhiễu sóng (White Noise) kéo dài 5 giây
+            const bufferSize = audioCtx.sampleRate * duration;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = (Math.random() * 2 - 1);
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const noiseGain = audioCtx.createGain();
+            noiseGain.gain.setValueAtTime(2.2, now);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+            // Bộ Distortion tạo tiếng gắt
+            const distortion = audioCtx.createWaveShaper();
+            function makeDistortionCurve(amount) {
+                let k = typeof amount === 'number' ? amount : 50,
+                    n_samples = 44100,
+                    curve = new Float32Array(n_samples),
+                    deg = Math.PI / 180,
+                    i = 0, x;
+                for (; i < n_samples; ++i) {
+                    x = i * 2 / n_samples - 1;
+                    curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
+                }
+                return curve;
+            }
+            distortion.curve = makeDistortionCurve(500);
+
+            // Kết nối âm thanh
+            osc1.connect(distortion);
+            osc2.connect(distortion);
+            noise.connect(noiseGain);
+
+            distortion.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            gain2.connect(audioCtx.destination);
+            noiseGain.connect(audioCtx.destination);
+
+            // Phát và giữ âm thanh trong suốt 5 giây
+            osc1.start(now);
+            osc2.start(now);
+            noise.start(now);
+
+            osc1.stop(now + duration);
+            osc2.stop(now + duration);
+            noise.stop(now + duration);
+        }
+
+        btn.addEventListener('click', () => {
+            playLongTerrifyingSound();
+
+            overlay.classList.remove('hidden');
+            overlay.classList.add('active');
+
+            // Giữ hiệu ứng hình ảnh và rung lắc khớp với độ dài 5 giây của âm thanh
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                overlay.classList.add('hidden');
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
