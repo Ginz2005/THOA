@@ -1,286 +1,557 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xin chào Nguyễn Minh Thương ✨</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hello Nguyễn Minh Thương ✨</title>
 
-        body {
-            background: #0d0d1a;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            color: #fff;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        /* Hiệu ứng nền ngân hà / hạt sáng */
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+    background:#050510;
+    color:white;
+}
 
-        /* Khung nội dung chính */
-        .card {
-            position: relative;
-            z-index: 2;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3), inset 0 0 15px rgba(168, 85, 247, 0.2);
-            text-align: center;
-            max-width: 480px;
-            width: 90%;
-            animation: float 4s ease-in-out infinite;
-        }
+/* BACKGROUND */
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(120,0,255,.25), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(0,200,255,.2), transparent 30%),
+        #050510;
+}
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
+/* PARTICLES */
+#particles{
+    position:fixed;
+    inset:0;
+    z-index:0;
+}
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #a855f7, #ec4899, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
-        }
+.particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    box-shadow:0 0 12px white;
+    animation:float linear infinite;
+}
 
-        .typing-text {
-            font-size: 1.1rem;
-            min-height: 60px;
-            color: #e2e8f0;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
+@keyframes float{
+    from{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+    20%{opacity:1;}
+    80%{opacity:1;}
+    to{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+}
 
-        /* Nút bấm tương tác */
-        .btn {
-            background: linear-gradient(135deg, #ec4899, #8b5cf6);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
-            transition: all 0.3s ease;
-            outline: none;
-        }
+/* SCANLINE */
+.scan{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:20;
+    background:repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.025) 0px,
+        rgba(255,255,255,.025) 1px,
+        transparent 2px,
+        transparent 5px
+    );
+}
 
-        .btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 25px rgba(236, 72, 153, 0.9);
-        }
+/* MAIN */
+.scene{
+    width:min(900px,92%);
+    min-height:550px;
+    position:relative;
+    z-index:5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-        /* Hiệu ứng trái tim bay khi bấm nút */
-        .heart {
-            position: absolute;
-            color: #ec4899;
-            font-size: 20px;
-            animation: popup 1s ease-out forwards;
-            pointer-events: none;
-        }
+/* CARD */
+.card{
+    width:100%;
+    min-height:500px;
+    padding:55px 30px;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:30px;
+    background:rgba(10,10,25,.62);
+    backdrop-filter:blur(18px);
+    box-shadow:
+        0 0 40px rgba(125,0,255,.15),
+        inset 0 0 40px rgba(255,255,255,.02);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+}
 
-        @keyframes popup {
-            0% { transform: scale(0.8) translateY(0); opacity: 1; }
-            100% { transform: scale(1.5) translateY(-80px); opacity: 0; }
-        }
-    </style>
+.card::before{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:#8b00ff;
+    filter:blur(100px);
+    opacity:.15;
+    top:-150px;
+    left:-100px;
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    background:#00d9ff;
+    filter:blur(100px);
+    opacity:.12;
+    bottom:-150px;
+    right:-100px;
+}
+
+/* TEXT */
+.small{
+    font-size:14px;
+    letter-spacing:5px;
+    color:#aaa;
+    text-transform:uppercase;
+    margin-bottom:25px;
+}
+
+.title{
+    font-size:clamp(42px,8vw,90px);
+    font-weight:900;
+    line-height:1;
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #b96cff,
+        #56eaff,
+        #fff
+    );
+    background-size:300%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:gradient 4s linear infinite;
+    text-shadow:0 0 30px rgba(130,50,255,.25);
+}
+
+@keyframes gradient{
+    0%{background-position:0%}
+    100%{background-position:300%}
+}
+
+.name{
+    margin-top:20px;
+    font-size:clamp(26px,5vw,52px);
+    font-weight:800;
+    letter-spacing:2px;
+    color:#fff;
+    text-shadow:
+        0 0 10px #b84cff,
+        0 0 30px #7a00ff,
+        0 0 60px rgba(0,220,255,.5);
+}
+
+/* DIVIDER */
+.line{
+    width:0;
+    height:2px;
+    margin:30px auto;
+    background:linear-gradient(90deg,#9d00ff,#00eaff);
+    box-shadow:0 0 15px #a000ff;
+    animation:lineGrow 1.5s 1.5s forwards;
+}
+
+@keyframes lineGrow{
+    to{width:70%;}
+}
+
+/* MESSAGE */
+.message{
+    max-width:650px;
+    margin:auto;
+    min-height:110px;
+    font-size:20px;
+    line-height:1.8;
+    color:#ddd;
+}
+
+.cursor{
+    display:inline-block;
+    width:2px;
+    height:22px;
+    background:#00eaff;
+    margin-left:4px;
+    animation:blink .7s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0;}
+}
+
+/* BUTTON */
+button{
+    margin-top:30px;
+    padding:15px 35px;
+    border:none;
+    border-radius:50px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    letter-spacing:1px;
+    cursor:pointer;
+    background:linear-gradient(90deg,#7200ff,#00cfff);
+    box-shadow:
+        0 0 20px rgba(120,0,255,.4),
+        0 0 40px rgba(0,210,255,.15);
+    transition:.3s;
+    position:relative;
+    z-index:10;
+}
+
+button:hover{
+    transform:scale(1.08);
+    box-shadow:
+        0 0 30px #8b00ff,
+        0 0 60px #00d9ff;
+}
+
+/* HEARTS */
+.heart{
+    position:fixed;
+    pointer-events:none;
+    font-size:25px;
+    animation:heartFly 2s ease-out forwards;
+    z-index:50;
+}
+
+@keyframes heartFly{
+    0%{
+        transform:translate(0,0) scale(.5);
+        opacity:1;
+    }
+    100%{
+        transform:
+            translate(
+                calc(-100px + 200px * var(--x)),
+                -300px
+            )
+            scale(1.5);
+        opacity:0;
+    }
+}
+
+/* FLASH */
+.flash{
+    position:fixed;
+    inset:0;
+    background:white;
+    z-index:100;
+    opacity:0;
+    pointer-events:none;
+}
+
+.flash.active{
+    animation:flash .4s;
+}
+
+@keyframes flash{
+    0%{opacity:.8}
+    100%{opacity:0}
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+    .scene{
+        width:94%;
+    }
+
+    .card{
+        min-height:520px;
+        padding:45px 18px;
+        border-radius:25px;
+    }
+
+    .small{
+        font-size:11px;
+        letter-spacing:3px;
+    }
+
+    .message{
+        font-size:17px;
+        line-height:1.7;
+    }
+
+    .name{
+        font-size:30px;
+    }
+
+    button{
+        padding:14px 28px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <div id="particles-js"></div>
+<div id="particles"></div>
+<div class="scan"></div>
+<div class="flash" id="flash"></div>
+
+<div class="scene">
 
     <div class="card">
-        <h1>Xin chào Nguyễn Minh Thương! ✨</h1>
-        <div class="typing-text" id="typewriter"></div>
-        <button class="btn" onclick="sendSignal(event)">Bấm vào đây nè 😉</button>
+
+        <div class="small">
+            SYSTEM MESSAGE • 23:06
+        </div>
+
+        <div class="title">
+            HELLO
+        </div>
+
+        <div class="name">
+            Nguyễn Minh Thương ✨
+        </div>
+
+        <div class="line"></div>
+
+        <div class="message">
+            <span id="text"></span>
+            <span class="cursor"></span>
+        </div>
+
+        <button onclick="startMagic()">
+            ✨ Bấm thử xem
+        </button>
+
     </div>
 
-    <!-- Thu viện tạo hạt sáng nền -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.min.js"></script>
-    <script>
-        // Hiệu ứng gõ chữ tự động
-        const text = "Mới nhắn tin được 1 tiếng nhưng thấy Thương đáng yêu quá nên phải tạo gấp cái này để làm quen đàng hoàng... Rất vui được biết Thương nha! 🚀✨";
-        let index = 0;
-        function typeWriter() {
-            if (index < text.length) {
-                document.getElementById("typewriter").innerHTML += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, 45);
+</div>
+
+<script>
+
+/* =========================
+   PARTICLES
+========================= */
+
+const particles = document.getElementById("particles");
+
+for(let i=0;i<100;i++){
+
+    const p=document.createElement("div");
+
+    p.className="particle";
+
+    p.style.left=Math.random()*100+"%";
+
+    p.style.animationDuration=
+        (5+Math.random()*10)+"s";
+
+    p.style.animationDelay=
+        Math.random()*8+"s";
+
+    p.style.opacity=
+        Math.random();
+
+    particles.appendChild(p);
+}
+
+
+/* =========================
+   TYPING EFFECT
+========================= */
+
+const textElement=document.getElementById("text");
+
+const messages=[
+"Xin chào em Nguyễn Minh Thương 👋",
+"",
+"Anh biết tụi mình mới nhắn với nhau được khoảng một tiếng thôi...",
+"",
+"Nên anh không định làm gì quá nghiêm túc đâu 😆",
+"",
+"Chỉ là anh muốn nói một câu rất đơn giản:",
+"",
+"Rất vui vì hôm nay đã có cơ hội được làm quen với em ✨",
+"",
+"Hy vọng từ một lời chào...",
+"",
+"mình có thể trở thành hai người nói chuyện với nhau thật vui 😊"
+];
+
+let messageIndex=0;
+let charIndex=0;
+
+function typeText(){
+
+    if(messageIndex>=messages.length){
+        return;
+    }
+
+    const current=messages[messageIndex];
+
+    if(charIndex<current.length){
+
+        textElement.innerHTML +=
+            current.charAt(charIndex);
+
+        charIndex++;
+
+        setTimeout(typeText,45);
+
+    }else{
+
+        messageIndex++;
+        charIndex=0;
+
+        setTimeout(()=>{
+
+            textElement.innerHTML += "<br>";
+
+            typeText();
+
+        },650);
+    }
+}
+
+setTimeout(typeText,2200);
+
+
+/* =========================
+   MAGIC BUTTON
+========================= */
+
+function startMagic(){
+
+    const flash=document.getElementById("flash");
+
+    flash.classList.remove("active");
+
+    void flash.offsetWidth;
+
+    flash.classList.add("active");
+
+    for(let i=0;i<25;i++){
+
+        const heart=document.createElement("div");
+
+        heart.className="heart";
+
+        heart.innerHTML=
+            Math.random()>0.5 ? "💜" : "✨";
+
+        heart.style.left=
+            (40+Math.random()*20)+"%";
+
+        heart.style.top=
+            (55+Math.random()*15)+"%";
+
+        heart.style.setProperty(
+            "--x",
+            Math.random()
+        );
+
+        heart.style.animationDuration=
+            (1.5+Math.random())+"s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },2500);
+    }
+
+    setTimeout(()=>{
+
+        alert(
+            "Một lời chào nhỏ thôi 😆\n\n" +
+            "Hy vọng Nguyễn Minh Thương sẽ cho anh một cơ hội để làm quen nhé ✨"
+        );
+
+    },600);
+}
+
+
+/* =========================
+   CLICK EFFECT
+========================= */
+
+document.addEventListener("click",(e)=>{
+
+    for(let i=0;i<8;i++){
+
+        const s=document.createElement("div");
+
+        s.innerHTML="✦";
+
+        s.style.position="fixed";
+        s.style.left=e.clientX+"px";
+        s.style.top=e.clientY+"px";
+        s.style.color="#fff";
+        s.style.fontSize="12px";
+        s.style.pointerEvents="none";
+        s.style.zIndex="999";
+
+        const angle=Math.random()*Math.PI*2;
+        const distance=30+Math.random()*70;
+
+        s.animate([
+
+            {
+                transform:"translate(-50%,-50%) scale(1)",
+                opacity:1
+            },
+
+            {
+                transform:
+                `translate(
+                    ${Math.cos(angle)*distance}px,
+                    ${Math.sin(angle)*distance}px
+                ) scale(0)`,
+                opacity:0
             }
-        }
-        window.onload = () => {
-            typeWriter();
-            initParticles();
-        };
 
-        // Bấm nút tạo hiệu ứng tim bay
-        function sendSignal(e) {
-            for (let i = 0; i < 8; i++) {
-                let heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.innerHTML = '💖';
-                heart.style.left = (e.clientX - 20 + (Math.random() * 60 - 30)) + 'px';
-                heart.style.top = (e.clientY - 20) + 'px';
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 1000);
-            }
-        }
-
-        // Cấu hình nền hạt neon
-        function initParticles() {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": { "value": 80 },
-                    "color": { "value": ["#a855f7", "#ec4899", "#3b82f6"] },
-                    "shape": { "type": "circle" },
-                    "opacity": { "value": 0.6, "random": true },
-                    "size": { "value": 4, "random": true },
-                    "line_linked": {
-                        "enable": true,
-                        "distance": 130,
-                        "color": "#a855f7",
-                        "opacity": 0.3,
-                        "width": 1
-                    },
-                    "move": { "enable": true, "speed": 2 }
-                },
-                "interactivity": {
-                    "events": {
-                        "onhover": { "enable": true, "mode": "grab" }
-                    }
-                }
-            });
-        }
-    </script>
-</body>
-</html>
-
-<div id="jumpscare-overlay" class="hidden">
-        <svg class="scare-image" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" fill="#fff" stroke="#000" stroke-width="2"/>
-            <circle cx="30" cy="35" r="14" fill="#000"/>
-            <circle cx="70" cy="35" r="14" fill="#000"/>
-            <circle cx="30" cy="35" r="5" fill="#ff0000"/>
-            <circle cx="70" cy="35" r="5" fill="#ff0000"/>
-            <path d="M 15 65 Q 50 10 85 65 Q 50 100 15 65 Z" fill="#000"/>
-            <path d="M 20 65 L 25 55 L 30 65 L 35 55 L 40 65 L 45 55 L 50 65 L 55 55 L 60 65 L 65 55 L 70 65 L 75 55 L 80 65" stroke="#fff" stroke-width="2.5" fill="none"/>
-        </svg>
-        <h1 class="scare-text">Dương Thị Thoa ăn cứt nha</h1>
-    </div>
-
-    <script>
-        const btn = document.getElementById('triggerBtn');
-        const overlay = document.getElementById('jumpscare-overlay');
-        let audioCtx = null;
-
-        function playLongTerrifyingSound() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            const now = audioCtx.currentTime;
-            const duration = 5.0; // Kéo dài âm thanh lên 5 giây
-
-            // 1. Tiếng thét tần số cao kéo dài
-            const osc1 = audioCtx.createOscillator();
-            const gain1 = audioCtx.createGain();
-            osc1.type = 'sawtooth';
-            osc1.frequency.setValueAtTime(3200, now);
-            osc1.frequency.exponentialRampToValueAtTime(120, now + duration);
-            gain1.gain.setValueAtTime(3.0, now);
-            gain1.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-            // 2. Tiếng gầm Sub-Bass trầm đục kéo dài
-            const osc2 = audioCtx.createOscillator();
-            const gain2 = audioCtx.createGain();
-            osc2.type = 'square';
-            osc2.frequency.setValueAtTime(150, now);
-            osc2.frequency.linearRampToValueAtTime(25, now + duration);
-            gain2.gain.setValueAtTime(3.5, now);
-            gain2.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-            // 3. Tiếng nhiễu sóng (White Noise) kéo dài 5 giây
-            const bufferSize = audioCtx.sampleRate * duration;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = (Math.random() * 2 - 1);
-            }
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-            const noiseGain = audioCtx.createGain();
-            noiseGain.gain.setValueAtTime(2.2, now);
-            noiseGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-            // Bộ Distortion tạo tiếng gắt
-            const distortion = audioCtx.createWaveShaper();
-            function makeDistortionCurve(amount) {
-                let k = typeof amount === 'number' ? amount : 50,
-                    n_samples = 44100,
-                    curve = new Float32Array(n_samples),
-                    deg = Math.PI / 180,
-                    i = 0, x;
-                for (; i < n_samples; ++i) {
-                    x = i * 2 / n_samples - 1;
-                    curve[i] = (3 + k) * x * 20 * deg / (Math.PI + k * Math.abs(x));
-                }
-                return curve;
-            }
-            distortion.curve = makeDistortionCurve(500);
-
-            // Kết nối âm thanh
-            osc1.connect(distortion);
-            osc2.connect(distortion);
-            noise.connect(noiseGain);
-
-            distortion.connect(gain1);
-            gain1.connect(audioCtx.destination);
-            gain2.connect(audioCtx.destination);
-            noiseGain.connect(audioCtx.destination);
-
-            // Phát và giữ âm thanh trong suốt 5 giây
-            osc1.start(now);
-            osc2.start(now);
-            noise.start(now);
-
-            osc1.stop(now + duration);
-            osc2.stop(now + duration);
-            noise.stop(now + duration);
-        }
-
-        btn.addEventListener('click', () => {
-            playLongTerrifyingSound();
-
-            overlay.classList.remove('hidden');
-            overlay.classList.add('active');
-
-            // Giữ hiệu ứng hình ảnh và rung lắc khớp với độ dài 5 giây của âm thanh
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                overlay.classList.add('hidden');
-            }, 5000);
+        ],{
+            duration:700,
+            easing:"ease-out"
         });
-    </script>
+
+        document.body.appendChild(s);
+
+        setTimeout(()=>{
+            s.remove();
+        },700);
+    }
+
+});
+
+</script>
+
 </body>
 </html>
